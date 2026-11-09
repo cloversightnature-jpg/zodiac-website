@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="AstroZodiak - Jelajahi langit malam, cari rasi bintang dari tanggal lahir, peta langit interaktif, time travel, star hopping, kuis astronomi, dan galeri." />
+<title>AstroZodiak · Jelajahi Langit Malam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='78' font-size='80'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E" />
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+<!-- ================= LATAR LANGIT ================= -->
+<div class="bg-layers" aria-hidden="true">
+  <div class="nebula nebula-1"></div>
+  <div class="nebula nebula-2"></div>
+  <div class="nebula nebula-3"></div>
+  <div class="nebula nebula-4"></div>
+  <div class="grain"></div>
+</div>
+<canvas id="bg-stars" aria-hidden="true"></canvas>
+
+<!-- ================= HEADER ================= -->
+<header class="site-header">
+  <a class="brand" href="#beranda">
+    <span class="brand-mark">✦</span>
+    <span class="brand-text">Astro<strong>Zodiak</strong></span>
+  </a>
+
+  <!-- Kalimat sekolah di pojok kanan atas -->
+  <div class="school-badge" title="SMAN Unggulan Cendekia Merah Putih Makassar">
+    <span class="school-dot"></span>
+    <span class="school-text">SMAN Unggulan Cendekia Merah Putih Makassar</span>
+  </div>
+
+  <button class="nav-toggle" id="navToggle" aria-label="Buka menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<nav class="main-nav" id="mainNav" aria-label="Navigasi utama">
+  <a href="#beranda" class="nav-link is-active" data-nav="beranda">Beranda</a>
+  <a href="#tanggal-lahir" class="nav-link" data-nav="tanggal-lahir">Tanggal Lahir</a>
+  <a href="#peta-langit" class="nav-link" data-nav="peta-langit">Peta Langit</a>
+  <a href="#time-travel" class="nav-link" data-nav="time-travel">Time Travel</a>
+  <a href="#langit-malam-ini" class="nav-link" data-nav="langit-malam-ini">Langit Malam Ini</a>
+  <a href="#star-hopping" class="nav-link" data-nav="star-hopping">Star Hopping</a>
+  <a href="#kuis" class="nav-link" data-nav="kuis">Kuis Astronomi</a>
+  <a href="#galeri" class="nav-link" data-nav="galeri">Galeri Foto</a>
+</nav>
+
+<main id="main">
+
+  <!-- ================= BERANDA ================= -->
+  <section class="view" id="view-beranda">
+    <div class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">✦ Peta langit interaktif berbasis astronomi nyata</p>
+        <h1>Jelajahi <span class="grad">Langit Malam</span> dari Mana Pun</h1>
+        <p class="lead">
+          Temukan rasi bintang dari tanggal lahirmu, lihat peta langit sesuai lokasi dan waktu
+          saat ini, lakukan perjalanan waktu menembus musim bintang, dan pelajari cara menemukan
+          bintang lewat metode <em>star hopping</em>.
+        </p>
+        <div class="hero-cta">
+          <a href="#peta-langit" class="btn btn-primary">Buka Peta Langit</a>
+          <a href="#tanggal-lahir" class="btn btn-ghost">Cari dari Tanggal Lahir</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat"><strong id="statStars">2.851</strong><span>bintang di katalog</span></div>
+          <div class="stat"><strong id="statConst">88</strong><span>rasi bintang IAU</span></div>
+          <div class="stat"><strong>13</strong><span>rasi di jalur zodiak</span></div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <canvas id="hero-constellation"></canvas>
+        <div class="hero-visual-caption">Ursa Major · Gayung Besar</div>
+      </div>
+    </div>
+
+    <h2 class="section-title">Mulai dari mana?</h2>
+    <div class="feature-grid">
+      <a class="feature-card" href="#tanggal-lahir">
+        <span class="fc-icon">♈</span>
+        <h3>Rasi dari Tanggal Lahir</h3>
+        <p>Masukkan tanggal lahirmu, kenali rasi zodiakmu beserta sains di baliknya.</p>
+      </a>
+      <a class="feature-card" href="#peta-langit">
+        <span class="fc-icon">🔭</span>
+        <h3>Peta Langit Interaktif</h3>
+        <p>Langit nyata di atas lokasimu saat ini, bisa digeser dan diperbesar.</p>
+      </a>
+      <a class="feature-card" href="#time-travel">
+        <span class="fc-icon">⏳</span>
+        <h3>Time Travel</h3>
+        <p>Geser waktu untuk melihat langit ratusan tahun lalu atau masa depan.</p>
+      </a>
+      <a class="feature-card" href="#langit-malam-ini">
+        <span class="fc-icon">🌙</span>
+        <h3>Langit Malam Ini</h3>
+        <p>Ringkasan apa yang bisa kamu lihat malam ini dari lokasimu.</p>
+      </a>
+      <a class="feature-card" href="#star-hopping">
+        <span class="fc-icon">🧭</span>
+        <h3>Metode Star Hopping</h3>
+        <p>Panduan langkah demi langkah menemukan bintang dari bintang yang dikenal.</p>
+      </a>
+      <a class="feature-card" href="#kuis">
+        <span class="fc-icon">🎓</span>
+        <h3>Kuis Astronomi</h3>
+        <p>Uji pemahamanmu tentang bintang, rasi, dan langit malam.</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- ================= TANGGAL LAHIR ================= -->
+  <section class="view" id="view-tanggal-lahir" hidden>
+    <h2 class="section-title">Cari Rasi Bintang dari Tanggal Lahir</h2>
+    <p class="section-sub">Rasi zodiak adalah rasi yang dilalui Matahari sepanjang tahun. Masukkan tanggal lahirmu untuk mengenalnya lebih dalam.</p>
+
+    <div class="panel form-panel">
+      <div class="field">
+        <label for="birthDate">Tanggal lahir</label>
+        <input type="date" id="birthDate" />
+      </div>
+      <button class="btn btn-primary" id="findSignBtn">Temukan Rasiku</button>
+      <div class="or-sep"><span>atau</span></div>
+      <div class="field-row">
+        <div class="field">
+          <label for="birthDay">Hari</label>
+          <select id="birthDay"></select>
+        </div>
+        <div class="field">
+          <label for="birthMonth">Bulan</label>
+          <select id="birthMonth"></select>
+        </div>
+      </div>
+      <button class="btn btn-ghost" id="findSignBtn2">Gunakan hari &amp; bulan</button>
+    </div>
+
+    <div id="signResult" class="sign-result" hidden></div>
+  </section>
+
+  <!-- ================= PETA LANGIT ================= -->
+  <section class="view" id="view-peta-langit" hidden>
+    <h2 class="section-title">Peta Langit Interaktif</h2>
+    <p class="section-sub">Peta langit nyata berdasarkan posisimu saat ini. Aktifkan lokasi untuk hasil akurat, atau isi koordinat manual.</p>
+
+    <div class="panel map-toolbar">
+      <button class="btn btn-primary" id="geoBtn">📍 Gunakan Lokasiku</button>
+      <div class="field compact">
+        <label for="latInput">Lintang</label>
+        <input type="number" id="latInput" step="0.01" value="-5.1477" />
+      </div>
+      <div class="field compact">
+        <label for="lonInput">Bujur</label>
+        <input type="number" id="lonInput" step="0.01" value="119.4327" />
+      </div>
+      <div class="field compact">
+        <label for="mapTime">Waktu</label>
+        <input type="datetime-local" id="mapTime" />
+      </div>
+      <button class="btn btn-ghost" id="mapNowBtn">Sekarang</button>
+    </div>
+
+    <div class="panel map-toolbar secondary">
+      <label class="switch"><input type="checkbox" id="toggleLines" checked /><span></span> Garis rasi</label>
+      <label class="switch"><input type="checkbox" id="toggleNames" checked /><span></span> Nama rasi</label>
+      <label class="switch"><input type="checkbox" id="toggleHorizon" checked /><span></span> Horizon &amp; mata angin</label>
+      <label class="switch"><input type="checkbox" id="toggleMW" checked /><span></span> Bima Sakti</label>
+      <div class="zoom-ctrl">
+        <span>Zoom</span>
+        <input type="range" id="zoomRange" min="40" max="320" value="130" />
+      </div>
+      <button class="btn btn-ghost small" id="mapResetBtn">Reset arah</button>
+    </div>
+
+    <div class="map-wrap">
+      <canvas id="skyCanvas"></canvas>
+      <div class="map-hud" id="mapHud"></div>
+      <div class="map-hint">Geser untuk memutar langit · Scroll/zoom untuk memperbesar · Klik bintang untuk detail</div>
+    </div>
+  </section>
+
+  <!-- ================= TIME TRAVEL ================= -->
+  <section class="view" id="view-time-travel" hidden>
+    <h2 class="section-title">Time Travel</h2>
+    <p class="section-sub">Langit berubah karena rotasi Bumi, revolusi Bumi, dan presesi poros Bumi. Geser waktu untuk melihatnya.</p>
+
+    <div class="panel map-toolbar">
+      <div class="field compact">
+        <label for="ttDatetime">Waktu tujuan</label>
+        <input type="datetime-local" id="ttDatetime" />
+      </div>
+      <div class="field compact">
+        <label for="ttLat">Lintang</label>
+        <input type="number" id="ttLat" step="0.01" value="-5.1477" />
+      </div>
+      <div class="field compact">
+        <label for="ttLon">Bujur</label>
+        <input type="number" id="ttLon" step="0.01" value="119.4327" />
+      </div>
+    </div>
+
+    <div class="panel tt-presets">
+      <button class="chip" data-tt="now">Sekarang</button>
+      <button class="chip" data-tt="+1h">+1 jam</button>
+      <button class="chip" data-tt="+6h">+6 jam</button>
+      <button class="chip" data-tt="+1d">+1 hari</button>
+      <button class="chip" data-tt="+1mo">+1 bulan</button>
+      <button class="chip" data-tt="+6mo">+6 bulan</button>
+      <button class="chip" data-tt="+1y">+1 tahun</button>
+      <button class="chip" data-tt="-100y">-100 tahun</button>
+      <button class="chip" data-tt="+2000y">+2000 tahun</button>
+    </div>
+    <div class="panel tt-slider">
+      <label for="ttYears">Geser tahun: <strong id="ttYearsLabel">0</strong></label>
+      <input type="range" id="ttYears" min="-2000" max="2000" step="1" value="0" />
+      <p class="tt-note" id="ttNote"></p>
+    </div>
+
+    <div class="map-wrap">
+      <canvas id="ttCanvas"></canvas>
+      <div class="map-hud" id="ttHud"></div>
+    </div>
+  </section>
+
+  <!-- ================= LANGIT MALAM INI ================= -->
+  <section class="view" id="view-langit-malam-ini" hidden>
+    <h2 class="section-title">Langit Malam Ini</h2>
+    <p class="section-sub">Ringkasan langit malam ini berdasarkan lokasimu. Diperbarui otomatis dari koordinat dan waktu.</p>
+
+    <div class="panel tonight-head">
+      <button class="btn btn-primary" id="nightGeoBtn">📍 Gunakan Lokasiku</button>
+      <div class="field compact">
+        <label for="nightLat">Lintang</label>
+        <input type="number" id="nightLat" step="0.01" value="-5.1477" />
+      </div>
+      <div class="field compact">
+        <label for="nightLon">Bujur</label>
+        <input type="number" id="nightLon" step="0.01" value="119.4327" />
+      </div>
+      <span class="muted" id="nightPlace">Makassar (bawaan)</span>
+    </div>
+
+    <div class="tonight-grid" id="tonightGrid"></div>
+  </section>
+
+  <!-- ================= STAR HOPPING ================= -->
+  <section class="view" id="view-star-hopping" hidden>
+    <h2 class="section-title">Metode Star Hopping</h2>
+    <p class="section-sub">Star hopping adalah teknik menemukan bintang atau objek langit dengan berpegang pada pola bintang yang sudah dikenal. Pilih rute, lalu ikuti langkahnya.</p>
+
+    <div class="hop-layout">
+      <div class="panel hop-list" id="hopList"></div>
+      <div class="hop-main">
+        <div class="map-wrap">
+          <canvas id="hopCanvas"></canvas>
+          <div class="map-hud" id="hopHud"></div>
+        </div>
+        <div class="panel hop-steps">
+          <div class="hop-progress"><div class="hop-bar" id="hopBar"></div></div>
+          <h3 id="hopStepTitle">Pilih rute di samping</h3>
+          <p id="hopStepText">Rute star hopping akan memandumu menemukan bintang dari pola yang dikenal.</p>
+          <div class="hop-nav">
+            <button class="btn btn-ghost" id="hopPrev">← Sebelumnya</button>
+            <span id="hopCounter">0 / 0</span>
+            <button class="btn btn-primary" id="hopNext">Berikutnya →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= KUIS ================= -->
+  <section class="view" id="view-kuis" hidden>
+    <h2 class="section-title">Kuis Astronomi</h2>
+    <p class="section-sub">Uji pengetahuanmu tentang bintang, rasi, dan langit malam.</p>
+
+    <div class="panel quiz-panel" id="quizPanel">
+      <div class="quiz-top">
+        <span id="quizProgress">Soal 1 dari 10</span>
+        <span id="quizScore">Skor: 0</span>
+      </div>
+      <div class="quiz-best" id="quizBest"></div>
+      <h3 id="quizQuestion">Memuat…</h3>
+      <div class="quiz-options" id="quizOptions"></div>
+      <div class="quiz-explain" id="quizExplain" hidden></div>
+      <div class="quiz-actions">
+        <button class="btn btn-primary" id="quizNext" disabled>Lanjut →</button>
+      </div>
+    </div>
+
+    <div class="panel quiz-result" id="quizResult" hidden>
+      <h3 id="quizResultTitle">Selesai!</h3>
+      <p id="quizResultText"></p>
+      <button class="btn btn-primary" id="quizRestart">Main Lagi</button>
+    </div>
+  </section>
+
+  <!-- ================= GALERI ================= -->
+  <section class="view" id="view-galeri" hidden>
+    <h2 class="section-title">Galeri Foto Pengguna</h2>
+    <p class="section-sub">Bagikan foto langit malammu. Foto yang kamu unggah disimpan di perangkatmu sendiri (privat, tidak diunggah ke server).</p>
+
+    <div class="panel upload-panel">
+      <label class="upload-drop" for="photoInput">
+        <input type="file" id="photoInput" accept="image/*" multiple hidden />
+        <span class="upload-icon">＋</span>
+        <span><strong>Klik untuk memilih foto</strong> atau tarik ke sini</span>
+        <span class="muted small">JPG/PNG · tersimpan lokal di browser-mu</span>
+      </label>
+      <div class="field">
+        <label for="photoCaption">Keterangan (opsional)</label>
+        <input type="text" id="photoCaption" placeholder="cth. Sabuk Orion dari Makassar" maxlength="80" />
+      </div>
+    </div>
+
+    <div class="gallery-head">
+      <h3>Koleksi komunitas</h3>
+      <button class="btn btn-ghost small" id="clearGallery">Hapus semua milikku</button>
+    </div>
+    <div class="gallery-grid" id="galleryGrid"></div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div>
+    <strong>AstroZodiak</strong> — Proyek astronomi edukatif.
+  </div>
+  <div class="footer-school">SMAN Unggulan Cendekia Merah Putih Makassar</div>
+  <div class="muted small">
+    Data bintang &amp; garis rasi bersumber dari katalog astronomi domain publik (derivasi d3-celestial).
+    Perhitungan posisi langit memakai waktu sideris &amp; proyeksi stereografik.
+  </div>
+</footer>
+
+<!-- ================= SKRIP ================= -->
+<script src="js/data/star-catalog.js"></script>
+<script src="js/data/constellation-lines.js"></script>
+<script src="js/data/constellation-names.js"></script>
+<script src="js/data/constellation-id.js"></script>
+<script src="js/data/zodiac-info.js"></script>
+<script src="js/data/star-names.js"></script>
+<script src="js/astro.js"></script>
+<script src="js/starfield.js"></script>
+<script src="js/skymap.js"></script>
+<script src="js/skymapview.js"></script>
+<script src="js/birthsign.js"></script>
+<script src="js/timetravel.js"></script>
+<script src="js/tonight.js"></script>
+<script src="js/starhopping.js"></script>
+<script src="js/quiz.js"></script>
+<script src="js/gallery.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
